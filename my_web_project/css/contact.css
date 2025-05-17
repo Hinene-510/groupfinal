@@ -1,0 +1,16 @@
+#message-box {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2D99CC;
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  opacity: 1;
+  transition: opacity 1s ease;
+  z-index: 9999;
+}

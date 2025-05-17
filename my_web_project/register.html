@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Register - NEUbie</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" />
+	<link href="css/all.min.css" rel="stylesheet" />
+	<link href="css/style.css" rel="stylesheet" />
+	<link href="css/login.css" rel="stylesheet" />
+	<style>
+		.success-popup {
+			display: none;
+			position: fixed;
+			top: 30%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #d4edda;
+			color: #155724;
+			padding: 20px 40px;
+			border: 2px solid #c3e6cb;
+			border-radius: 10px;
+			font-size: 18px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+			z-index: 1000;
+		}
+
+		.error-message {
+			color: red;
+			font-size: 0.85rem;
+			margin-top: 5px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Header -->
+		<div class="placeholder">
+			<div class="parallax-window" data-parallax="scroll" data-image-src="img/background.jpg">
+				<div class="tm-header">
+					<div class="row tm-header-inner">
+						<div class="col-md-6 col-12">
+							<img src="img/logo.jpg" alt="Logo" class="tm-site-logo" style="border-radius: 50%;">
+							<div class="tm-site-text-box">
+								<h1 class="tm-site-title">NEUbie</h1>
+								<h6 class="tm-site-description">NEU's Souvenir Shop</h6>
+							</div>
+						</div>
+						<nav class="col-md-6 col-12 tm-nav">
+							<ul class="tm-nav-ul">
+								<li class="tm-nav-li"><a href="index.html" class="tm-nav-link">Home</a></li>
+								<li class="tm-nav-li"><a href="login.html" class="tm-nav-link">Login</a></li>
+								<li class="tm-nav-li"><a href="register.html" class="tm-nav-link active">Register</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<header class="row tm-welcome-section">
+			<h2 class="col-12 text-center tm-section-title">Create Your Account</h2>
+		</header>
+
+		<!-- Register Form -->
+		<section class="tm-cart-section scroll-animate">
+			<div class="card login">
+				<h3 class="text-center">Register</h3>
+				<form class="login-form" id="registerForm" novalidate>
+					<div class="form-group"style="position: relative; width: 300px;">
+						<label for="name">Full Name</label>
+						<input type="text" style="width: 100%;" id="name" placeholder="Enter your full name" required />
+						<small class="error-message"></small>
+					</div>
+					<div class="form-group"style="position: relative; width: 300px;">
+						<label for="email">Email</label>
+						<input type="email" style="width: 100%;" id="email" placeholder="Enter your email" required />
+						<small class="error-message"></small>
+					</div>
+					<div class="form-group"style="position: relative; width: 300px;">
+						<label for="password">Password</label>
+						<input type="password" style="width: 100%;" id="password" placeholder="Enter password" required />
+						<small class="error-message"></small>
+					</div>
+					<div class="form-group"style="position: relative; width: 300px;">
+						<label for="confirmPassword">Confirm Password</label>
+						<input type="password" style="width: 100%;" id="confirmPassword" placeholder="Re-enter password" required />
+						<small class="error-message"></small>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-login tm-shake-x-on-hover">
+							Register
+						</button>
+					</div>
+					<p class="text-center">
+						Already have an account? <a href="login.html">Login here</a>
+					</p>
+				</form>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="tm-footer text-center">
+			<p>&copy; 2025 NEUbie | Design: Group 9</p>
+		</footer>
+	</div>
+
+	<!-- Popup -->
+	<div id="success-popup" class="success-popup">
+		<div class="success-title">✅ Register Successfully</div>
+	</div>
+
+	<script>
+		document.getElementById("registerForm").addEventListener("submit", function (e) {
+			e.preventDefault();
+
+			const email = document.getElementById("email");
+			const password = document.getElementById("password");
+			const confirmPassword = document.getElementById("confirmPassword");
+			const name = document.getElementById("name");
+
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,}$/;
+
+			let isValid = true;
+
+			document.querySelectorAll(".error-message").forEach((el) => {
+				el.textContent = "";
+				el.style.display = "none";
+			});
+
+			if (name.value.trim() === "") {
+				showError(name, "Please enter your full name.");
+				isValid = false;
+			}
+
+			if (!emailRegex.test(email.value.trim())) {
+				showError(email, "Invalid email format.");
+				isValid = false;
+			}
+
+			if (!passwordRegex.test(password.value)) {
+				showError(password, "Password must be at least 10 characters, include a number, an uppercase letter, and a special character.");
+				isValid = false;
+			}
+
+			if (confirmPassword.value !== password.value) {
+				showError(confirmPassword, "Passwords do not match.");
+				isValid = false;
+			}
+
+			if (isValid) {
+				document.getElementById("success-popup").style.display = "block";
+				setTimeout(() => {
+					window.location.href = "login.html";
+				}, 1500);
+			}
+		});
+
+		function showError(inputEl, message) {
+			const error = inputEl.parentElement.querySelector(".error-message");
+			error.textContent = message;
+			error.style.display = "block";
+		}
+	</script>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/parallax.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".parallax-window").parallax({ imageSrc: "img/background.jpg" });
+		});
+	</script>
+</body>
+</html>
